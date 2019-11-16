@@ -13,7 +13,7 @@ COPY . /www
 COPY .env.${APP_ENV} /www/.env
 
 RUN  cd /www \
-    && composer install \
+    && composer install --no-dev \
     && composer clearcache \
     && composer dump-autoload -o \
     && composer init-proxy
