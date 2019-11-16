@@ -18,6 +18,6 @@ RUN  cd /www \
     && composer dump-autoload -o \
     && composer init-proxy
 
-EXPOSE 9501
+EXPOSE 9501 9502 9503
 
 ENTRYPOINT ["php", "/www/bin/hyperf.php", "start"]
