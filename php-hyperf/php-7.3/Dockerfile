@@ -2,15 +2,15 @@ FROM registry.cn-shenzhen.aliyuncs.com/yansongda/php-fpm:7.3
 
 LABEL maintainer="yansongda <me@yansongda.cn>"
 
-ARG app_env=prod
+ARG build_env=prod
 
-ENV APP_ENV=${app_env:-"prod"}
+ENV BUILD_ENV=${build_env:-"prod"}
 
 WORKDIR /www
 
 COPY php.ini /usr/local/etc/php/
 COPY . /www
-COPY .env.${APP_ENV} /www/.env
+COPY .env.${BUILD_ENV} /www/.env
 
 RUN  cd /www \
     && composer install --no-dev \
