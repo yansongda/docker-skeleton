@@ -12,11 +12,8 @@ COPY php.ini /usr/local/etc/php/
 COPY . /www
 COPY .env.${BUILD_ENV} /www/.env
 
-RUN  cd /www \
-    && composer install --no-dev \
-    && composer clearcache \
-    && composer dump-autoload -o \
-    && composer init-proxy
+RUN echo ${BUILD_ENV} && cd /www \
+    && composer install --no-dev -o
 
 EXPOSE 9501 9502 9503
 
