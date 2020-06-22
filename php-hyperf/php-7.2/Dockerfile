@@ -4,7 +4,8 @@ LABEL maintainer="yansongda <me@yansongda.cn>"
 
 ARG build_env=prod
 
-ENV BUILD_ENV=${build_env:-"prod"}
+ENV BUILD_ENV=${build_env:-"prod"} \
+    SCAN_CACHEABLE=(true)
 
 WORKDIR /www
 
@@ -13,7 +14,9 @@ COPY . /www
 COPY .env.${BUILD_ENV} /www/.env
 
 RUN echo ${BUILD_ENV} && cd /www \
-    && composer install --no-dev -o
+    && composer install --no-dev \
+    && composer clearcache \
+    && php bin/hyperf.php
 
 EXPOSE 9501 9502 9503
 
