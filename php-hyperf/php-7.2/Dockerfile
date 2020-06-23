@@ -11,10 +11,9 @@ WORKDIR /www
 
 COPY php.ini /usr/local/etc/php/
 COPY . /www
-COPY .env.${BUILD_ENV} /www/.env
 
 RUN echo ${BUILD_ENV} && cd /www \
-    && composer install --no-dev \
+    && composer install --no-dev -o \
     && composer clearcache \
     && php bin/hyperf.php
 
