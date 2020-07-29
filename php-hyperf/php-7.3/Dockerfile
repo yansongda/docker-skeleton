@@ -4,18 +4,18 @@ LABEL maintainer="yansongda <me@yansongda.cn>"
 
 ARG build_env=prod
 
-ENV BUILD_ENV=${build_env:-"prod"} \
-    SCAN_CACHEABLE=(true)
+ENV BUILD_ENV=${build_env:-"prod"}
 
 WORKDIR /www
 
 COPY php.ini /usr/local/etc/php/
 COPY . /www
+COPY .env.${BUILD_ENV} /www/.env
 
-RUN echo ${BUILD_ENV} && cd /www \
-    && composer install --no-dev -o \
+RUN  cd /www \
+    && composer install --no-dev \
     && composer clearcache \
-    && php bin/hyperf.php
+    && composer dump-autoload -o 
 
 EXPOSE 9501 9502 9503
 
