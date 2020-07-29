@@ -67,7 +67,7 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-autoload-dump": [
-            "init-proxy.sh"
+            "rm -rf runtime/container"
         ],
         "test": "co-phpunit -c phpunit.xml --colors=always",
         "cs-fix": "php-cs-fixer fix $1",
