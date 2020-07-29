@@ -10,7 +10,6 @@ WORKDIR /www
 
 COPY php.ini /usr/local/etc/php/
 COPY . /www
-COPY .env.${BUILD_ENV} /www/.env
 
 RUN  cd /www \
     && composer install --no-dev \
