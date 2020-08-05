@@ -11,7 +11,8 @@ WORKDIR /www
 COPY php.ini /usr/local/etc/php/
 COPY . /www
 
-RUN  cd /www \
+RUN rm -rf /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini \
+    && cd /www \
     && composer install --no-dev \
     && composer clearcache \
     && composer dump-autoload -o 
