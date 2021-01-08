@@ -1,0 +1,49 @@
+version: '3.4'
+services:
+    app:
+        image: registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:hyperf-7.3
+        container_name: app
+        restart: always
+        networks:
+            - app
+        ports:
+            - 8200:8080
+            - 8201:8888
+        volumes:
+            - ./:/www
+    redis:
+        image: redis:4
+        container_name: redis
+        command: ["redis-server", "--requirepass", "123abc"]
+        networks:
+            - app
+        ports:
+            - 6379:6379
+
+    mysql:
+        image: mysql:5
+        container_name: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: app
+        networks:
+            - app
+        expose:
+            - 3306
+        ports:
+            - 3306:3306
+
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq
+        environment:
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+        networks:
+            - app
+        ports:
+            - 5672:5672
+            - 15672:15672
+
+networks:
+    app:
