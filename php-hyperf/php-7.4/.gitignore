@@ -1,4 +1,0 @@
-vendor/
-runtime/
-.env
-composer.lock
