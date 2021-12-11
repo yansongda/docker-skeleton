@@ -10,8 +10,8 @@ env:
   ALIYUN_IMAGE_TOKEN: ${{ secrets.ALIYUN_IMAGE_ACCESSTOKEN }}
 
 jobs:
-  hyperf:
-    name: build hyperf-${{ matrix.php-version }}
+  php-hyperf:
+    name: build php-hyperf-${{ matrix.php-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
