@@ -1,4 +1,4 @@
-FROM registry.cn-shenzhen.aliyuncs.com/yansongda/php-fpm:7.4-alpine
+FROM yansongda/php-fpm:7.4-alpine
 
 LABEL maintainer="yansongda <me@yansongda.cn>"
 
