@@ -1,4 +1,4 @@
-FROM yansongda/php:7.4-cli-alpine
+FROM yansongda/php:cli-7.4-alpine
 
 LABEL maintainer="yansongda <me@yansongda.cn>"
 
