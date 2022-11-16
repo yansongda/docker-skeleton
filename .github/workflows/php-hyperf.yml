@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    name: build php-hyperf-${{ matrix.php-version }}
+    name: build php-hyperf-${{ matrix.php-version }}-${{ matrix.platform }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,6 +42,7 @@ jobs:
           docker buildx build -t yansongda/skeleton --platform ${{ matrix.platform }} -f ./php-hyperf/php-${{ matrix.php-version }}/Dockerfile ./php-hyperf/php-${{ matrix.php-version }}
       - name: Tag the image
         run: |
+          docker tag yansongda/skeleton yansongda/skeleton:$tag
           docker tag yansongda/skeleton registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:$tag
       - name: Push the image to docker registry
         run: |
