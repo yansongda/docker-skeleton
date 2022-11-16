@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    name: Build ${{ matrix.php-version }}-${{ matrix.platform }}
+    name: Image ${{ matrix.php-version }}-${{ matrix.platform }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
