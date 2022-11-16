@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: docker-php-hyperf
 
 on:
   push:
@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    name: build php-hyperf-${{ matrix.php-version }}-${{ matrix.platform }}
+    name: Build-${{ matrix.php-version }}-${{ matrix.platform }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -55,7 +55,7 @@ jobs:
           docker push registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:$tag
           docker logout
   manifest:
-    name: Manifest php-hyperf-${{ matrix.php-version }}
+    name: Manifest-${{ matrix.php-version }}
     runs-on: ubuntu-latest
     needs:
       - build
