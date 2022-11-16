@@ -1,4 +1,4 @@
-name: docker-php-hyperf
+name: Docker Image > php-hyperf
 
 on:
   push:
