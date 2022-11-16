@@ -6,6 +6,7 @@ on:
     - cron: '0 1 * * 1'
 
 env:
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
   ALIYUN_IMAGE_TOKEN: ${{ secrets.ALIYUN_IMAGE_ACCESSTOKEN }}
 
 jobs:
@@ -25,16 +26,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Recognize tag
-          run: |
-            platform=$(echo ${{ matrix.platform }} | sed 's/linux\///g')
-            tag=$platform'-hyperf-'${{ matrix.php-version }}
+        run: |
+          platform=$(echo ${{ matrix.platform }} | sed 's/linux\///g')
+          tag=$platform'-hyperf-'${{ matrix.php-version }}
 
-            echo $tag
-            echo "tag=$tag" >> $GITHUB_ENV
-        - name: Set up QEMU
-          uses: docker/setup-qemu-action@v2
-          with:
-            platforms: arm64
+          echo $tag
+          echo "tag=$tag" >> $GITHUB_ENV
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
       - name: Build the docker image
         run: |
           docker buildx ls
@@ -42,6 +43,11 @@ jobs:
       - name: Tag the image
         run: |
           docker tag yansongda/skeleton registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:$tag
+      - name: Push the image to docker registry
+        run: |
+          echo $DOCKERHUB_TOKEN | docker login --username yansongda --password-stdin
+          docker push yansongda/skeleton:$tag
+          docker logout
       - name: Push the image to aliyun registry
         run: |
           echo $ALIYUN_IMAGE_TOKEN | docker login --username=me@yansongda.cn registry.cn-shenzhen.aliyuncs.com --password-stdin
@@ -76,11 +82,17 @@ jobs:
           aliyun=''
           for platform in $list;  
           do  
-            hub=$hub'yansongda/skeleton:'$platform-$tag' '
+            hub=$hub'yansongda/skeleton:'$platform'-'$tag' '
             aliyun=$aliyun'registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:'$platform'-'$tag' '
           done
 
+          docker manifest create yansongda/skeleton:$tag $hub
           docker manifest create registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:$tag $aliyun
+      - name: Push the manifest to docker registry
+        run: |
+          echo $DOCKERHUB_TOKEN | docker login --username yansongda --password-stdin
+          docker manifest push yansongda/skeleton:$tag
+          docker logout
       - name: Push the manifest to aliyun registry
         run: |
           echo $ALIYUN_IMAGE_TOKEN | docker login --username=me@yansongda.cn registry.cn-shenzhen.aliyuncs.com --password-stdin
