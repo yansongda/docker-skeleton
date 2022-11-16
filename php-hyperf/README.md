@@ -2,4 +2,4 @@
 
 ## tags
 
-- hyperf-{php} (eg: yansongda/skeleton:hyperf-8.1)
+- {arch}-hyperf-{php} (eg: yansongda/skeleton:amd64-hyperf-8.1)
