@@ -75,27 +75,33 @@ jobs:
 
           echo $tag
           echo "tag=$tag" >> $GITHUB_ENV
-      - name: Tag the manifest
-        run: |
-          list=$(echo $PLATFORMS | sed 's/linux\///g')
-
-          hub=''
-          aliyun=''
-          for platform in $list;  
-          do  
-            hub=$hub'yansongda/skeleton:'$platform'-'$tag' '
-            aliyun=$aliyun'registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:'$platform'-'$tag' '
-          done
-
-          docker manifest create yansongda/skeleton:$tag $hub
-          docker manifest create registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:$tag $aliyun
       - name: Push the manifest to docker registry
         run: |
           echo $DOCKERHUB_TOKEN | docker login --username yansongda --password-stdin
+
+          list=$(echo $PLATFORMS | sed 's/linux\///g')
+
+          hub=''
+          for platform in $list;  
+          do  
+            hub=$hub'yansongda/skeleton:'$platform'-'$tag' '
+          done
+
+          docker manifest create yansongda/skeleton:$tag $hub
           docker manifest push yansongda/skeleton:$tag
           docker logout
       - name: Push the manifest to aliyun registry
         run: |
           echo $ALIYUN_IMAGE_TOKEN | docker login --username=me@yansongda.cn registry.cn-shenzhen.aliyuncs.com --password-stdin
+          
+          list=$(echo $PLATFORMS | sed 's/linux\///g')
+
+          aliyun=''
+          for platform in $list;  
+          do
+            aliyun=$aliyun'registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:'$platform'-'$tag' '
+          done
+
+          docker manifest create registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:$tag $aliyun
           docker manifest push registry.cn-shenzhen.aliyuncs.com/yansongda/skeleton:$tag
           docker logout
