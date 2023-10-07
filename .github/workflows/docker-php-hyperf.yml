@@ -3,7 +3,7 @@ name: Docker Image > php-hyperf
 on:
   push:
   schedule:
-    - cron: '0 1 * * 1'
+    - cron: '0 0 5 * 1'
 
 env:
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
@@ -16,9 +16,10 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - '8.0'
-          - '8.1'
-          - '8.2'
+          - '7.4'
+          # - '8.0'
+          # - '8.1'
+          # - '8.2'
         platform:
           - linux/amd64
           - linux/arm64
@@ -63,9 +64,10 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - '8.0'
-          - '8.1'
-          - '8.2'
+          - '7.4'
+          # - '8.0'
+          # - '8.1'
+          # - '8.2'
     env:
       PLATFORMS: "linux/arm64 linux/amd64"
     steps:
